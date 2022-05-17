@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Observable } from 'rxjs';
+import { GamesListDTO } from './games.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +16,13 @@ export class GetgamesService {
     console.log('prueba')
   }
 
-  getGames() {
-    let headers = new HttpHeaders()
 
+
+  getGames(): Observable<GamesListDTO> {
+    let headers = new HttpHeaders()
     return this.http.get(this.url, {
       headers: headers
     })
   }
+
 }
