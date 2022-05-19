@@ -138,3 +138,10 @@ export interface YearsEntity1 {
     count: number;
     nofollow: boolean;
 }
+
+
+export interface columns {
+    name: string;
+    sort: string;
+  }
+  

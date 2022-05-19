@@ -1,3 +1,30 @@
 .example-card {
-    max-width: 400px;
-  }
+  max-width: 400px;
+}
+
+table {
+  width: 100%;
+}
+
+
+.formContainer{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 80%;
+}
+
+.imagen{
+  max-width: 400px;
+}
+
+.pictureConteiner{
+  display: flex;
+  flex-direction: row;
+  background-color: red;
+  width: 100%;
+}

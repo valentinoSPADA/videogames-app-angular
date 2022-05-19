@@ -4,6 +4,7 @@ import { ComponentComponent } from './component/component.component';
 import { MaterialModule } from 'src/app/material.module';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import {MatNativeDateModule} from '@angular/material/core';
 
 
 
@@ -15,7 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     MaterialModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    MatNativeDateModule
   ],
   exports: [
     ComponentComponent

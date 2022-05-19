@@ -1,4 +1,4 @@
-<div *ngFor="let game of games">
+<!-- <div *ngFor="let game of games">
     <mat-card class="example-card">
         <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
@@ -16,4 +16,52 @@
             <button mat-button>SHARE</button>
         </mat-card-actions>
     </mat-card>
+</div> -->
+<div class="formContainer">
+
+    <mat-form-field appearance="standard">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
+</div>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container [matColumnDef]="column.name" *ngFor="let column of iterableColumns">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by {{column.sort}}">
+                {{column.name | titlecase}} </th>
+            <td mat-cell *matCellDef="let element"> {{element[column.name]}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 15, 25]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+</div>
+
+
+<a mat-flat-button color="accent" (click)="ShowPicturesSelected()">Show pictures of selection(s)</a>
+
+<div class="pictureConteiner">
+    <div *ngFor="let image of pictures">
+        <img src="{{image}}" alt="" class="imagen">
+    </div>
 </div>
