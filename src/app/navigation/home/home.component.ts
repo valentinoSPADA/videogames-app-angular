@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ChangeDetectionStrategy, OnChanges, SimpleChanges, DoCheck, ChangeDetectorRef } from '@angular/core';
 import { filter, forkJoin, map, Observable } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,7 +6,6 @@ import { columns, Game, GamesListDTO } from './games.model';
 import { GetgamesService } from '../../services/getgames.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort, Sort } from '@angular/material/sort';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 //apikey = 637a8cb53a4c48189fb3385d3ac56c62
 //get games = https://api.rawg.io/api/games
@@ -15,13 +14,14 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements AfterViewInit, DoCheck {
 
-  displayedColumns: string[] = ['select', 'id', 'name', 'released', 'rating'];
+  displayedColumns: string[] = ['select', 'buttons', 'id', 'name', 'released', 'rating'];
   iterableColumns: columns[] = [{ name: 'id', sort: 'number' }, { name: 'name', sort: 'name' }, { name: 'rating', sort: 'number' }, { name: 'released', sort: 'date' }];
 
   public games: Array<Game> = []
@@ -35,11 +35,13 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
+
+
   @ViewChild(MatSort)
   sort!: MatSort;
 
   constructor(
-    private getgamesService: GetgamesService, private _liveAnnouncer: LiveAnnouncer
+    private getgamesService: GetgamesService, private ref: ChangeDetectorRef
   ) {
     this.getGamesTwoTimes();
   };
@@ -75,12 +77,11 @@ export class HomeComponent implements AfterViewInit {
 
 
 
-
   getGamesTwoTimes() {
 
     let observables: Observable<GamesListDTO>[] = []
 
-    for (let i = 1; i < 11; i++) {
+    for (let i = 1; i < 2; i++) {
       observables.push(this.getgamesService.getGames2(i))
     }
     forkJoin(observables).pipe(
@@ -89,7 +90,7 @@ export class HomeComponent implements AfterViewInit {
         for (let i = 0; i < list.length; i++) {
           results = results.concat(list[i].results);
         }
-        return results;
+        return results = [...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results, ...results]
       }),
       filter((results: Game[] | null | undefined) => {
         return results !== null || results !== undefined;
@@ -98,8 +99,11 @@ export class HomeComponent implements AfterViewInit {
         return results as Game[];
       })
     ).subscribe((res: Game[]) => {
+      const startTime = performance.now()
       this.games = [...this.games, ...res];
       this.dataSource.data = this.games;
+      const endTime = performance.now()
+      console.log(`Call to doSomething took ${(endTime - startTime) / 1000} seconds`)
     });
   }
 
@@ -113,15 +117,25 @@ export class HomeComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+
+  validate(row: Game) {
+      return row.id % 2 === 0
     }
+
+
+
+  ngDoCheck(): void {
+    console.log('cambiooo')
   }
+
+
+
+  counter() {
+    console.log('renders')
+  }
+
+  trackBy(index: number, item: Game): string {
+    return `${item.id}`;
+  }
+
 }
