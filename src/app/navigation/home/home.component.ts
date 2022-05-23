@@ -1,11 +1,11 @@
-import { Component, AfterViewInit, ViewChild, ChangeDetectionStrategy, OnChanges, SimpleChanges, DoCheck, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ChangeDetectionStrategy, DoCheck, ChangeDetectorRef } from '@angular/core';
 import { filter, forkJoin, map, Observable } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { columns, Game, GamesListDTO } from './games.model';
 import { GetgamesService } from '../../services/getgames.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 
 //apikey = 637a8cb53a4c48189fb3385d3ac56c62
 //get games = https://api.rawg.io/api/games
@@ -119,8 +119,8 @@ export class HomeComponent implements AfterViewInit, DoCheck {
 
 
   validate(row: Game) {
-      return row.id % 2 === 0
-    }
+    return row.id % 2 === 0
+  }
 
 
 

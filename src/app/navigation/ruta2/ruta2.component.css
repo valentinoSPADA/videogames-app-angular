@@ -1,0 +1,21 @@
+.example-form {
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+
+.error{
+  font-size: 13px;
+}
+
+  .conteiner{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }

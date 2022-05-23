@@ -1,1 +1,64 @@
-<p>ruta2 works!</p>
+<div class="conteiner">
+
+    <form class="example-form" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Rating</mat-label>
+                        <input matInput type="number" formControlName="rating">
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+
+        <p>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email">
+                <mat-hint class="error" *ngIf="formulario.get('email')?.errors?.['mailError']">
+                    <strong> el mail debe ser de primary SA </strong>
+                </mat-hint>
+            </mat-form-field>
+
+
+
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea matInput maxlength="500" formControlName="description"></textarea>
+            </mat-form-field>
+        </p>
+
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Released</mat-label>
+                        <input formControlName="released" type="date" matInput placeholder="Ex. 11-11-2011">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Platform</mat-label>
+                        <input formControlName="platform" matInput placeholder="Ex. Playstation 5">
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+        <button type="submit" [disabled]="!formulario.valid"> submit </button>
+    </form>
+</div>
+
+<p>
+    {{submit | json}}
+</p>
+<p>
+
+    {{formulario.getRawValue() | json}}
+</p>
