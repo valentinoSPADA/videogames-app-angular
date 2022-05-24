@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 
 @Component({
@@ -12,16 +12,17 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn,
 export class Ruta2Component implements OnInit {
 
 
+
+
   formulario = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.minLength(4)]),
-    rating: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email, this.mailValidator()]),
-    description: new FormControl('', Validators.required),
-    released: new FormControl('', Validators.required),
-    platform: new FormControl('', Validators.required),
+
+    games: new FormArray([
+      this.newFormGroup()
+    ])
   });
 
-  submit = {};
+  submit: object = {};
 
 
   constructor() { }
@@ -29,6 +30,29 @@ export class Ruta2Component implements OnInit {
 
   ngOnInit(): void {
   }
+
+  newFormGroup() {
+    return new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      rating: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      released: new FormControl('', Validators.required),
+      platform: new FormControl('', Validators.required),
+    })
+  }
+  get games() {
+    return this.formulario.get('games') as FormArray
+  }
+
+  addGame() {
+    this.games.push(this.newFormGroup())
+  }
+
+  removeGame(id: number) {
+    this.games.removeAt(id)
+  }
+
+
   onSubmit() {
     this.formulario.get('rating')?.disable()
     console.warn(this.formulario.value);
